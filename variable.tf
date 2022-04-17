@@ -109,8 +109,3 @@ variable "force_destroy" {
   type        = bool
   description = "(optional) describe your variable"
 }
-
-variable "acl" {
-  type        = string
-  description = "(optional) describe your variable"
-}
