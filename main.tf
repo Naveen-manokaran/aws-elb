@@ -1,6 +1,12 @@
 resource "aws_elb" "bar" {
-  name               = var.elb_name
-  availability_zones = var.availability_zones
+  name                       = var.elb_name
+  availability_zones         = var.availability_zones
+  enable_deletion_protection = true
+  access_logs {
+    bucket  = aws_s3_bucket.this.bucket
+    prefix  = var.name
+    enabled = true
+  }
   listener {
     instance_port     = var.instance_port
     instance_protocol = var.instance_protocol
@@ -28,6 +34,12 @@ resource "aws_elb" "bar" {
 }
 
 
+resource "aws_s3_bucket" "this" {
+  bucket        = var.bucket_name
+  acl           = var.acl
+  force_destroy = var.force_destroy
+
+}
 
 
 

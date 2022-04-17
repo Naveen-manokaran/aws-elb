@@ -99,3 +99,18 @@ variable "region" {
   description = "(optional) describe your variable"
   default     = "us-east-2"
 }
+
+variable "bucket_name" {
+  type        = string
+  description = "(optional) describe your variable"
+}
+
+variable "force_destroy" {
+  type        = bool
+  description = "(optional) describe your variable"
+}
+
+variable "acl" {
+  type        = string
+  description = "(optional) describe your variable"
+}
