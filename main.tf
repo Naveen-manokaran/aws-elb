@@ -47,6 +47,18 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
 }
 
 
+resource "aws_load_balancer_policy" "wu-tang-ssl-tls-1-1" {
+  load_balancer_name = aws_elb.bar.name
+  policy_name        = "wu-tang-ssl"
+  policy_type_name   = "SSLNegotiationPolicyType"
+
+  policy_attribute {
+    name  = "Reference-Security-Policy"
+    value = "ELBSecurityPolicy-TLS-1-1-2017-01"
+  }
+}
+
+
 
 
 
