@@ -1,7 +1,7 @@
 resource "aws_elb" "bar" {
   name               = var.elb_name
   availability_zones = var.availability_zones
-
+  security_groups    = [aws_security_group.ssh_from_office.id]
   access_logs {
     bucket  = aws_s3_bucket.this.bucket
     enabled = true
@@ -46,17 +46,46 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
   }
 }
 
+resource "aws_subnet" "my-pri_subnet" {
+  vpc_id            = aws_vpc.my-vpc.id
+  cidr_block        = "10.0.2.0/25"
+  availability_zone = "us-east-2b"
+}
 
-resource "aws_load_balancer_policy" "wu-tang-ssl-tls-1-1" {
-  load_balancer_name = aws_elb.bar.name
-  policy_name        = "wu-tang-ssl"
-  policy_type_name   = "SSLNegotiationPolicyType"
+resource "aws_vpc" "my-vpc" {
+  cidr_block = "10.0.0.0/16"
 
-  policy_attribute {
-    name  = "Reference-Security-Policy"
-    value = "ELBSecurityPolicy-TLS-1-1-2017-01"
+}
+resource "aws_security_group" "ssh_from_office" {
+  name        = "ssh_from_office"
+  description = "Allow ssh from office"
+  vpc_id      = aws_vpc.my-vpc.id
+  ingress {
+    protocol  = -1
+    self      = true
+    from_port = 0
+    to_port   = 0
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
+# resource "aws_load_balancer_policy" "wu-tang-ssl-tls-1-1" {
+#   load_balancer_name = aws_elb.bar.name
+#   policy_name        = "wu-tang-ssl"
+#   policy_type_name   = "SSLNegotiationPolicyType"
+
+#   policy_attribute {
+#     name  = "Reference-Security-Policy"
+#     value = "ELBSecurityPolicy-TLS-1-1-2017-01"
+#   }
+# }
 
 
 
