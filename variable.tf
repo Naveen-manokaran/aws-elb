@@ -109,3 +109,9 @@ variable "force_destroy" {
   type        = bool
   description = "(optional) describe your variable"
 }
+
+variable "versioning_configuration" {
+  type        = string
+  description = "Enable versioning of bucket objects"
+
+}
